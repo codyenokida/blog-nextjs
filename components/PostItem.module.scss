@@ -1,0 +1,64 @@
+.link {
+  text-decoration: none;
+  &:hover {
+    text-decoration: #b689ff wavy underline;
+  }
+}
+
+.active {
+  text-decoration: $green wavy underline;
+}
+
+.item {
+  display: none;
+}
+
+// MEDIA QUERIES!!!
+
+@media only screen and (min-width: 768px) {
+  /* tablets and desktop */
+}
+
+@media only screen and (max-width: 767px) {
+  /* mobile phones */
+  .link {
+    display: none;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    align-items: flex-start;
+    text-decoration: none;
+
+    .image {
+      aspect-ratio: 1 / 1;
+      width: 8rem;
+      height: 8rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    div {
+      text-decoration: none;
+      h2 {
+        font-size: 1.13rem;
+        margin: 0;
+        text-decoration: none;
+      }
+
+      span {
+        font-size: 1rem;
+        color: $gray;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+  /* portrait phones */
+}

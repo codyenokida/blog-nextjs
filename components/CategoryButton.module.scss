@@ -1,0 +1,29 @@
+.button {
+  padding: 0.25rem 0.75rem;
+  background: transparent;
+  cursor: pointer;
+
+  position: relative;
+  bottom: -1em;
+  opacity: 0;
+  animation: move-item 0.5s forwards;
+
+  &.active {
+    background: $green;
+  }
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+@keyframes move-item {
+  0% {
+    bottom: -2rem;
+    opacity: 0;
+  }
+  100% {
+    bottom: 0;
+    opacity: 1;
+  }
+}

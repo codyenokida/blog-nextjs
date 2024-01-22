@@ -1,0 +1,56 @@
+.section {
+  border-top: 1px solid $black;
+  white-space: pre-line;
+
+  .title {
+    margin: 1rem 0;
+  }
+
+  .container {
+    .comment {
+      display: flex;
+      flex-direction: column;
+
+      .author {
+        font-weight: 700;
+      }
+
+      .datePosted {
+        color: $gray;
+        font-size: 0.75rem;
+      }
+
+      .content {
+        margin: 0.4rem 0 0.5rem 0;
+      }
+    }
+  }
+
+  .post {
+    .input {
+      display: flex;
+      flex-direction: column;
+
+      label {
+        font-size: 0.75rem;
+      }
+
+      input {
+        margin-bottom: 1rem;
+      }
+
+      textarea {
+        height: 6rem;
+      }
+    }
+  }
+
+  .button {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .error {
+    color: $red;
+  }
+}

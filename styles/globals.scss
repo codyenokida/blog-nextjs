@@ -1,0 +1,156 @@
+html {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 1.5rem;
+}
+
+:root {
+  background-color: $beige;
+  color: $black;
+
+  a {
+    color: $black;
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+button {
+  border: 1px solid $black;
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+button,
+a {
+  font-family: inherit;
+}
+
+input,
+textarea {
+  border: 1px solid $black;
+}
+
+img {
+  border: 1px solid $black;
+}
+
+hr {
+  background-color: $black;
+}
+
+footer {
+  .lights {
+    padding: 0;
+
+    svg {
+      height: 4rem;
+      transform: rotate(180deg);
+
+      path {
+        fill: $black;
+      }
+    }
+  }
+}
+
+// DARK MODE
+:root:has(.dark) {
+  background-color: $black;
+  color: $beige;
+  border-color: $beige;
+
+  a {
+    color: $beige;
+  }
+
+  button {
+    color: $beige;
+    border: 1px solid $beige;
+
+    &.active {
+      color: $black;
+    }
+  }
+
+  textarea {
+    border: 1px solid $beige;
+  }
+
+  img {
+    border: 1px solid $beige;
+  }
+
+  hr {
+    background-color: $beige;
+  }
+
+  header.title {
+    border-bottom: 1px solid $beige;
+  }
+
+  button.sortButton {
+    border-bottom: 1px solid $beige !important;
+
+    svg.sortIcon {
+      path,
+      .sort {
+        fill: $beige !important;
+      }
+    }
+  }
+
+  article.main {
+    background-color: $black !important;
+
+    section {
+      border-top: 1px solid $beige;
+    }
+  }
+
+  footer {
+    border-top: 1px solid $beige;
+
+    .lights {
+      padding: 0;
+
+      svg {
+        height: 4rem;
+        transform: rotate(180deg) translate(180deg);
+
+        path {
+          fill: $beige;
+        }
+      }
+    }
+  }
+}
+
+// MEDIA QUERIES!!!
+
+@media only screen and (min-width: 768px) {
+  /* tablets and desktop */
+}
+
+@media only screen and (max-width: 767px) {
+  /* mobile phones */
+  body {
+    width: calc(100% - 3rem);
+    margin: 0 1.5rem;
+  }
+}
+
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+  /* portrait phones */
+}

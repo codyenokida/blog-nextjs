@@ -1,0 +1,139 @@
+.skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 13;
+  width: 100%;
+  background-color: #e9ddddcc;
+  // The shine that's going to move across the skeleton:
+  background-image: linear-gradient(
+    40deg,
+    rgba(#fff, 0),
+    rgba(#fff, 0.5),
+    rgba(#fff, 0)
+  );
+  background-size: 40px 100%; // width of the shine
+  background-repeat: no-repeat; // No need to repeat the shine effect
+  background-position: left -40px top 0; // Place shine on the left side, with offset on the left based on the width of the shine - see background-size
+  animation: shine 1s ease infinite; // increase animation time to see effect in 'slow-mo'
+}
+
+.container {
+  width: 100%;
+  position: relative;
+
+  div {
+    position: relative;
+    width: 100%;
+  }
+
+  .content {
+    margin-top: 1rem;
+    height: 1.5rem;
+    .skeleton {
+      height: 1.5rem;
+    }
+  }
+  .content0 {
+    width: 80%;
+  }
+  .content1 {
+    width: 60%;
+  }
+  .content2 {
+    width: 80%;
+  }
+  .content3 {
+    width: 60%;
+  }
+  .content4 {
+    width: 75%;
+  }
+  .content5 {
+    width: 80%;
+  }
+  .content6 {
+    width: 70%;
+  }
+}
+
+.mobile {
+  display: none;
+}
+
+@keyframes shine {
+  to {
+    // Move shine from left to right, with offset on the right based on the width of the shine - see background-size
+    background-position: right -40px top 0;
+  }
+}
+
+// MEDIA QUERIES!!!
+
+@media only screen and (min-width: 768px) {
+  /* tablets and desktop */
+}
+
+@media only screen and (max-width: 767px) {
+  /* mobile phones */
+  .container {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    align-items: flex-start;
+    text-decoration: none;
+    margin-top: 1rem;
+
+    .content {
+      display: flex;
+      gap: 1rem;
+      width: 100%;
+
+      .image {
+        position: relative;
+        width: 8rem;
+        height: 8rem;
+
+        .skeleton {
+          width: 8rem;
+          height: 8rem;
+        }
+      }
+
+      .text {
+        flex: 1;
+        width: 100%;
+
+        .title {
+          width: 80%;
+          height: 1.5rem;
+          position: relative;
+
+          .skeleton {
+            height: 1.5rem;
+          }
+        }
+
+        .readMore {
+          margin-top: 0.5rem;
+          width: 30%;
+          height: 1rem;
+          position: relative;
+
+          .skeleton {
+            height: 1rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+  /* portrait phones */
+}

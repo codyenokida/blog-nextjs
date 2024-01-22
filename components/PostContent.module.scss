@@ -1,0 +1,20 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  white-space: pre-line;
+  box-sizing: border-box;
+
+  .text {
+    margin: 0.25rem 0 0 0;
+    white-space: pre-line;
+  }
+
+  .image {
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+}

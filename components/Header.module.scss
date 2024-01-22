@@ -1,0 +1,63 @@
+.title {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid $black;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  h1 {
+    font-weight: 900;
+    margin: 0;
+  }
+
+  p {
+    font-weight: 400;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .logo {
+    border: none !important;
+  }
+}
+
+.category {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+:root:has(.dark) {
+  .title {
+    border-bottom: 1px solid $beige;
+  }
+}
+
+// MEDIA QUERIES!!!
+
+@media only screen and (max-width: 1024px) {
+  /* tablets and desktop */
+  .body {
+    width: 40rem;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  /* mobile phones */
+  .title {
+    img {
+      width: 4.5rem;
+      height: 4.5rem;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+  /* portrait phones */
+}
