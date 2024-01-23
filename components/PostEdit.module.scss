@@ -1,0 +1,183 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+
+  width: 100%;
+  max-width: 40rem;
+  min-height: 100vh;
+  padding: 1rem 0;
+  z-index: 10;
+
+  h1 {
+    margin: 0;
+  }
+
+  .error {
+    color: $red;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    .category {
+      select {
+        margin-top: 0.5rem;
+        display: flex;
+        background-color: transparent;
+        width: 12rem;
+        height: 2rem;
+        font-size: 1rem;
+
+        option {
+          width: 100%;
+        }
+      }
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      margin-top: 0.5rem;
+    }
+
+    .title {
+      input {
+        display: flex;
+        width: calc(100% - 8px);
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid $black;
+      }
+    }
+
+    .spotify {
+      input {
+        display: flex;
+        width: calc(100% - 8px);
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid $black;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .date {
+      .container {
+        .dateType {
+          margin-top: 0.5rem;
+          display: flex;
+          gap: 1rem;
+
+          .active {
+            background-color: $green;
+          }
+        }
+
+        input[type="date"] {
+          height: 2rem;
+          background-color: transparent;
+          padding: 0.5rem 1rem;
+        }
+      }
+    }
+
+    .thumbnail {
+      .imageFilled {
+        margin-top: 0.5rem;
+        position: relative;
+        display: flex;
+        gap: 0.5rem;
+
+        img {
+          object-fit: contain;
+          width: 13rem;
+          height: 13rem;
+        }
+
+        button {
+          height: 4rem;
+        }
+      }
+
+      .image {
+        margin-top: 0.5rem;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 13rem;
+        height: 13rem;
+
+        input {
+          cursor: pointer;
+          opacity: 0;
+          position: absolute;
+          width: 13rem;
+          height: 12.5rem;
+          top: 0;
+          left: 0;
+        }
+
+        .placeholder {
+          width: 13rem;
+          height: 13rem;
+
+          svg {
+            width: 85%;
+            height: auto;
+          }
+
+          p {
+            margin: 0;
+          }
+        }
+      }
+    }
+
+    .content {
+      .items {
+        ul {
+          list-style-type: none;
+          padding: 0;
+          padding-left: 1.25rem;
+
+          li {
+            margin-bottom: 1rem;
+            width: calc(100% - 0.5rem);
+
+            cursor: grab;
+            cursor: -webkit-grab;
+            cursor: -moz-grab;
+
+            &:active {
+              cursor: grabbing;
+            }
+          }
+        }
+      }
+
+      .buttons {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,80 @@
+.modal {
+  padding: 1rem;
+  overflow: hidden;
+  width: 18rem;
+  background-color: $beige;
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  textarea {
+    margin: 1rem 0;
+    width: calc(100% - 0.5rem);
+    height: 20rem;
+  }
+
+  label {
+    margin-top: 1rem;
+  }
+
+  .caption {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .imageFilled {
+    margin: 1rem 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: 15rem;
+    }
+  }
+
+  .image {
+    margin: 1rem 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 15rem;
+
+    input {
+      cursor: pointer;
+      opacity: 0;
+      position: absolute;
+      width: 100%;
+      height: 14.5rem;
+      top: 0;
+      left: 0;
+    }
+
+    .placeholder {
+      width: 100%;
+      height: 15rem;
+
+      svg {
+        width: 75%;
+        height: auto;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+}

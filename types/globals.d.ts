@@ -21,8 +21,7 @@ declare global {
     id: string;
     title: string;
     category: string;
-    thumbnailImage: string;
-    dateType: 0 | 1;
+    dateType: "single" | "multiple";
     startDate: Timestamp;
     endDate?: Timestamp;
     datePosted: Timestamp;

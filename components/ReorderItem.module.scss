@@ -1,0 +1,31 @@
+.item {
+  position: relative;
+  white-space: pre-line;
+
+  img {
+    width: calc(100% - 2rem);
+  }
+
+  &:before {
+    content: ".";
+    position: absolute;
+    top: -10px;
+    left: -1.5rem;
+    font-size: 20px;
+    line-height: 20px;
+    color: #ac14c2;
+    text-shadow: 0 5px #ac14c2, 0 10px #ac14c2, 5px 0 #ac14c2, 5px 5px #ac14c2,
+      5px 10px #ac14c2;
+  }
+
+  .delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 1rem;
+    line-height: 1rem;
+    padding: 0.25rem;
+    border: 1px solid $black;
+    border-radius: 50%;
+  }
+}

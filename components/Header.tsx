@@ -1,12 +1,12 @@
 import Image from "next/image";
+import classNames from "classnames";
 
 import SplitText from "@/components/SplitText";
 import CategoryButton from "@/components/CategoryButton";
 
-import styles from "./Header.module.scss";
-import classNames from "classnames";
+import { categoriesForRender } from "@/utils/consts";
 
-const categories = ["All", "Thoughts", "Reviews", "Travel", "Misc."];
+import styles from "./Header.module.scss";
 
 export default function Header({
   activeCategoryIndex,
@@ -35,7 +35,7 @@ export default function Header({
       </p>
       {/* Category Container */}
       <div className={styles.category}>
-        {categories.map((category, i) => (
+        {categoriesForRender.map((category, i) => (
           <CategoryButton
             key={category}
             category={category}

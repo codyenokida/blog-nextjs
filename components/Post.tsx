@@ -74,8 +74,10 @@ export default function Post({ postId }: { postId: string }) {
       </Link>
       <header className={styles.title}>
         <h1 className={styles.title}>{title || ""}</h1>
-        {dateType === 0 && <p className={styles.date}>{formattedStartDate}</p>}
-        {dateType === 1 && (
+        {dateType === "single" && (
+          <p className={styles.date}>{formattedStartDate}</p>
+        )}
+        {dateType === "multiple" && (
           <p className={styles.date}>
             {formattedStartDate} - {formattedEndDate}
           </p>

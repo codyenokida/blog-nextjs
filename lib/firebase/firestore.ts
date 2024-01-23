@@ -117,6 +117,24 @@ export async function postComment(id: string, author: string, content: string) {
   });
 }
 
+export async function uploadPost(
+  id: string,
+  thumbnail: string | undefined,
+  post: any
+) {
+  const blogPostItemRef = doc(db, "posts", `${id}`);
+  const blogPostContentRef = doc(db, "blog-post", `${id}`);
+  const item = {
+    id: post.id,
+    datePosted: post.datePosted,
+    title: post.title,
+    category: post.category,
+    thumbnail: thumbnail,
+  };
+  setDoc(blogPostItemRef, { ...item }, { merge: true });
+  setDoc(blogPostContentRef, { ...post }, { merge: true });
+}
+
 // Helpers for migration
 
 export async function migratePosts() {
@@ -128,7 +146,7 @@ export async function migratePosts() {
       datePosted: post.datePosted,
       title: post.title,
       category: post.category,
-      thumbnail: post.thumbnailImage,
+      // thumbnail: post.thumbnailImage,
     };
     setDoc(blogPostRef, { ...item }, { merge: true });
   }

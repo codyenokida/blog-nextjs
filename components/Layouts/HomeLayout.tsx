@@ -15,13 +15,11 @@ import { getPostItems, getPostItemsCached } from "@/lib/firebase/firestore";
 
 import styles from "./HomeLayout.module.scss";
 
-import "@/styles/globals.scss";
 import PostItem from "../PostItem";
 import Footer from "../Footer";
+import { categories } from "@/utils/consts";
 
 const jetBrains_Mono = JetBrains_Mono({ subsets: ["latin"] });
-
-const categories = ["All", "Thoughts", "Reviews", "Travel", "Misc."];
 
 export default function HomeLayout({
   children,
@@ -49,7 +47,7 @@ export default function HomeLayout({
   useEffect(() => {
     const getDocument = async () => {
       setPostsLoading(true);
-      const data = await getPostItemsCached({ order: orderBy });
+      const data = await getPostItemsCached({ order: "desc" });
       if (data) {
         setPosts(data);
         setActivePostId(data[0].id);
@@ -95,49 +93,47 @@ export default function HomeLayout({
   };
 
   return (
-    <html lang="en">
-      <body
-        suppressHydrationWarning={true}
-        className={classNames(styles.body, jetBrains_Mono.className, {
-          [theme]: theme === "dark",
-        })}
-      >
-        <Header
-          activeCategoryIndex={activeCategoryIndex}
-          setActiveCategoryIndex={setActiveCategoryIndex}
-        />
-        <main className={styles.content}>
-          <div className={styles.posts}>
-            <div className={styles.sort}>
-              <button onClick={handleSortButtonClick} className="sortButton">
-                Sort by Date
-                <SortIcon
-                  className={classNames(styles.sortIcon, "sortIcon", {
-                    [styles.asc]: orderBy === "asc",
-                  })}
-                />
-              </button>
-            </div>
-            {postsLoading ? (
-              <PostItemLoadingSkeleton />
-            ) : (
-              <div className={styles.list}>
-                {posts.map((post) => (
-                  <PostItem
-                    key={post.id}
-                    item={post}
-                    handlePostClick={handlePostClick}
-                    activePostId={activePostId}
-                  />
-                ))}
-              </div>
-            )}
+    <body
+      suppressHydrationWarning={true}
+      className={classNames(styles.body, jetBrains_Mono.className, {
+        [theme]: theme === "dark",
+      })}
+    >
+      <Header
+        activeCategoryIndex={activeCategoryIndex}
+        setActiveCategoryIndex={setActiveCategoryIndex}
+      />
+      <main className={styles.content}>
+        <div className={styles.posts}>
+          <div className={styles.sort}>
+            <button onClick={handleSortButtonClick} className="sortButton">
+              Sort by Date
+              <SortIcon
+                className={classNames(styles.sortIcon, "sortIcon", {
+                  [styles.asc]: orderBy === "asc",
+                })}
+              />
+            </button>
           </div>
-          <hr className={styles.divider} />
-          <div className={styles.post}>{children}</div>
-        </main>
-        <Footer />
-      </body>
-    </html>
+          {postsLoading ? (
+            <PostItemLoadingSkeleton />
+          ) : (
+            <div className={styles.list}>
+              {posts.map((post) => (
+                <PostItem
+                  key={post.id}
+                  item={post}
+                  handlePostClick={handlePostClick}
+                  activePostId={activePostId}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+        <hr className={styles.divider} />
+        <div className={styles.post}>{children}</div>
+      </main>
+      <Footer />
+    </body>
   );
 }

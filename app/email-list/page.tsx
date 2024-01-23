@@ -6,7 +6,7 @@ const Error = () => {
   return (
     <main className={styles.container}>
       <h1>Oops!</h1>
-      <p>You've reached somewhere you aren't supposed to be.</p>
+      <p>You&apos;ve reached somewhere you aren&apos;t supposed to be.</p>
       <Link href="/">Go back!!</Link>
     </main>
   );
