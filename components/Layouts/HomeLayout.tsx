@@ -5,19 +5,20 @@ import { JetBrains_Mono } from "next/font/google";
 import { useRouter } from "next/navigation";
 import classNames from "classnames";
 
+import PostItem from "@/components/PostItem";
+import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import SortIcon from "@/components/Icons/SortIcon";
 import PostItemLoadingSkeleton from "@/components/Skeleton/PostItemLoadingSkeleton";
 
 import { ThemeContext } from "@/context/ThemeContext";
 import { PostContext } from "@/context/PostContext";
+
+import { categories } from "@/utils/consts";
+
 import { getPostItems, getPostItemsCached } from "@/lib/firebase/firestore";
 
 import styles from "./HomeLayout.module.scss";
-
-import PostItem from "../PostItem";
-import Footer from "../Footer";
-import { categories } from "@/utils/consts";
 
 const jetBrains_Mono = JetBrains_Mono({ subsets: ["latin"] });
 

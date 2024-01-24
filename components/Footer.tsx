@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import classNames from "classnames";
 import Link from "next/link";
 
-import LightSwitch from "./Icons/LightSwitch";
+import LightSwitch from "@/components/Icons/LightSwitch";
 
 import { ThemeContext } from "@/context/ThemeContext";
 

@@ -5,18 +5,21 @@ import classNames from "classnames";
 import Link from "next/link";
 import imageCompression from "browser-image-compression";
 import { v4 as uuidv4 } from "uuid";
+import { Reorder } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
+import ReorderItem from "@/components/ReorderItem";
+import ImagePlaceholder from "@/components/Icons/ImagePlaceholder";
 
 import { categoriesForEdit } from "@/utils/consts";
+import { formatDate } from "@/utils/helper";
+
+import { uploadImageToStorage } from "@/lib/firebase/storage";
+import { getPostFromIdCached, uploadPost } from "@/lib/firebase/firestore";
 
 import styles from "./PostEdit.module.scss";
-import ImagePlaceholder from "./Icons/ImagePlaceholder";
-import { Reorder } from "framer-motion";
-import ReorderItem from "@/components/ReorderItem";
-import { uploadImageToStorage } from "@/lib/firebase/storage";
-import { uploadPost } from "@/lib/firebase/firestore";
 
 interface PostEditProps {
   id?: string;
@@ -43,18 +46,92 @@ interface FormError {
 }
 
 export default function PostEdit({ id = "" }: PostEditProps) {
-  // Form State
+  const router = useRouter();
+
+  // Controlled Form State
   const [form, setForm] = useState<Form>({});
-  const [formError, setFormError] = useState<FormError>({});
-  const [dateType, setDateType] = useState<"single" | "multiple">("single");
   const [content, setContent] = useState<any[]>([]);
+  const [dateType, setDateType] = useState<"single" | "multiple">("single");
+  const [thumbnailFromServer, setThumbnailFromServer] = useState<string>("");
+
+  // Error State
+  const [formError, setFormError] = useState<FormError>({});
+
+  // Pre-populated data from post id
+  const [data, setData] = useState<BlogPostData>();
 
   // Modal State
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [modalType, setModalType] = useState<"image" | "text">();
 
-  // Styling
+  // Refs
   const hiddenFileInput = useRef<any>(null);
+
+  const categoryRef = useRef<any>(null);
+  const titleRef = useRef<any>(null);
+  const spotifyLinkRef = useRef<any>(null);
+  const startDateRef = useRef<any>(null);
+  const endDateRef = useRef<any>(null);
+
+  // Pre-populate fields from id
+  useEffect(() => {
+    const getData = async () => {
+      const post = await getPostFromIdCached(id);
+      if (post) {
+        setData(post);
+      }
+    };
+
+    getData();
+  }, [id]);
+
+  useEffect(() => {
+    if (data?.category && categoryRef.current) {
+      categoryRef.current.value = data?.category;
+      setForm((prev) => ({ ...prev, category: data?.category }));
+    }
+    if (data?.title && titleRef.current) {
+      titleRef.current.value = data?.title;
+      setForm((prev) => ({ ...prev, title: data?.title }));
+    }
+    if (data?.spotifyLink && spotifyLinkRef.current) {
+      spotifyLinkRef.current.value = data?.spotifyLink;
+      setForm((prev) => ({ ...prev, spotifyLink: data?.spotifyLink }));
+    }
+    if (data?.dateType) {
+      setDateType(data.dateType);
+      setForm((prev) => ({ ...prev, dateType: data?.dateType }));
+    }
+    if (data?.startDate && startDateRef.current) {
+      const startDate = formatDate(
+        data?.startDate.toDate()?.toLocaleDateString()
+      );
+      startDateRef.current.value = data?.startDate.toDate();
+      setForm((prev) => ({ ...prev, startDate: startDate }));
+    }
+    if (data?.endDate && endDateRef.current) {
+      const endDate = formatDate(data?.endDate.toDate()?.toLocaleDateString());
+      endDateRef.current.value = data?.endDate.toDate();
+      setForm((prev) => ({ ...prev, endDate: endDate }));
+    }
+    if (data?.thumbnailImage) {
+      setThumbnailFromServer(data.thumbnailImage);
+    }
+    if (data?.content) {
+      setContent(data.content);
+      setForm((prev) => ({ ...prev, content: data.content }));
+    }
+  }, [
+    data?.category,
+    data?.title,
+    data?.spotifyLink,
+    data?.dateType,
+    data?.startDate,
+    data?.endDate,
+    data?.thumbnailImage,
+    data?.content,
+    endDateRef.current,
+  ]);
 
   useEffect(() => {
     setForm((prev) => ({ ...prev, content: content }));
@@ -79,7 +156,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
     if (form.content) {
       updateFormError("content", "");
     }
-  }, [form]);
+  }, [form, dateType]);
 
   const handleClear = () => {
     setForm({});
@@ -116,6 +193,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
         useWebWorker: true,
       });
       setForm({ ...form, thumbnail: compressedThumbnail });
+      setThumbnailFromServer("");
     }
   };
 
@@ -186,7 +264,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
         }
       }
     }
-    if (!form.thumbnail) {
+    if (!form.thumbnail && !thumbnailFromServer) {
       updateFormError("thumbnail", "Must submit a thumbnail.");
       error = true;
     }
@@ -210,14 +288,16 @@ export default function PostEdit({ id = "" }: PostEditProps) {
     // Use original ID or generate a new ID
     const postId = id || uuidv4();
 
-    const datePosted = new Date();
+    /**
+     * Uploading all assets
+     */
 
-    // Upload all photos
-    const thumbnailUrl = await uploadImageToStorage(
-      postId,
-      "thumbnail",
-      form.thumbnail
-    );
+    // If thumbnail alreday exists use, if not upload to storage
+    const thumbnailUrl = thumbnailFromServer
+      ? thumbnailFromServer
+      : await uploadImageToStorage(postId, "thumbnail", form.thumbnail);
+
+    // Upload all content images
     const contentToUpload = await Promise.all(
       form.content.map(async (section: any) => {
         if (section.type === "text") {
@@ -240,6 +320,10 @@ export default function PostEdit({ id = "" }: PostEditProps) {
       })
     );
 
+    // Generate Posted Date
+    const datePosted = new Date();
+
+    // Generate Metadata
     const postToUpload = {
       id: postId,
       title: form.title,
@@ -250,9 +334,13 @@ export default function PostEdit({ id = "" }: PostEditProps) {
       endDate: form.endDate ? new Date(form.endDate) : null,
       category: form.category,
       spotifyLink: form.spotifyLink || null,
+      thumbnailImage: thumbnailUrl,
+      comments: data?.comments || [],
     };
 
-    await uploadPost(postId, thumbnailUrl, postToUpload);
+    await uploadPost(postId, postToUpload);
+
+    router.push(`/post/${postId}`);
   };
 
   return (
@@ -267,6 +355,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
           <select
             onChange={(e) => updateFormValue(e, "category")}
             defaultValue={"--- Select ---"}
+            ref={categoryRef}
           >
             {[0, ...categoriesForEdit].map((category, i) =>
               i === 0 ? (
@@ -287,6 +376,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
           <input
             placeholder="Title"
             onChange={(e) => updateFormValue(e, "title")}
+            ref={titleRef}
           />
           {formError.title && (
             <span className={styles.error}>{formError.title}</span>
@@ -296,7 +386,8 @@ export default function PostEdit({ id = "" }: PostEditProps) {
           <label>Spotify Link:</label>
           <input
             placeholder="Spotify Link"
-            onChange={(e) => updateFormValue(e, "title")}
+            onChange={(e) => updateFormValue(e, "spotifyLink")}
+            ref={spotifyLinkRef}
           />
         </div>
         <div className={styles.date}>
@@ -325,6 +416,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
             {dateType === "single" && (
               <input
                 type="date"
+                ref={startDateRef}
                 value={form?.startDate}
                 onChange={(e) => updateFormValue(e, "startDate")}
                 data-date=""
@@ -335,6 +427,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
               <div className="date-range-container">
                 <input
                   type="date"
+                  ref={startDateRef}
                   value={form.startDate}
                   onChange={(e) => updateFormValue(e, "startDate")}
                   data-date=""
@@ -343,6 +436,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
                 to{" "}
                 <input
                   type="date"
+                  ref={endDateRef}
                   value={form.endDate}
                   onChange={(e) => updateFormValue(e, "endDate")}
                   data-date=""
@@ -357,10 +451,28 @@ export default function PostEdit({ id = "" }: PostEditProps) {
         </div>
         <div className={styles.thumbnail}>
           <label>Thumbnail:</label>
-          {form.thumbnail ? (
+          {thumbnailFromServer ? (
+            <div className={styles.imageFilled}>
+              <img src={thumbnailFromServer} alt="Thumbnail" />
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setThumbnailFromServer("");
+                  updateFormValue(e, "thumbnail");
+                }}
+              >
+                Clear Thumbnail
+              </button>
+            </div>
+          ) : form.thumbnail ? (
             <div className={styles.imageFilled}>
               <img src={URL.createObjectURL(form.thumbnail)} alt="Thumbnail" />
-              <button onClick={(e) => updateFormValue(e, "thumbnail")}>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  updateFormValue(e, "thumbnail");
+                }}
+              >
                 Clear Thumbnail
               </button>
             </div>
@@ -378,6 +490,7 @@ export default function PostEdit({ id = "" }: PostEditProps) {
               />
             </button>
           )}
+
           {formError.thumbnail && (
             <span className={styles.error}>{formError.thumbnail}</span>
           )}

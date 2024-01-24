@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 
+import Button from "@/components/Button";
+import PostContent from "@/components/PostContent";
+import PostComment from "@/components/PostComment";
+import SpotifyPill from "@/components/SpotifyPill";
+import PostLoadingSkeleton from "@/components/Skeleton/PostLoadingSkeleton";
+import Footer from "@/components/Footer";
+
 import { getPostFromIdCached } from "@/lib/firebase/firestore";
 
-import Button from "./Button";
-import PostContent from "./PostContent";
-import PostComment from "./PostComment";
-import SpotifyPill from "./SpotifyPill";
-
 import styles from "./Post.module.scss";
-import PostLoadingSkeleton from "./Skeleton/PostLoadingSkeleton";
-import Footer from "./Footer";
 
 export default function Post({ postId }: { postId: string }) {
   const [data, setData] = useState<BlogPostData>({} as BlogPostData);

@@ -1,8 +1,10 @@
 "use client";
 
-import { Spotify } from "react-spotify-embed";
-import styles from "./SpotifyPill.module.scss";
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
+
+import { convertToEmbedUrl } from "@/utils/helper";
+
+import styles from "./SpotifyPill.module.scss";
 
 interface SpotifyPillProps {
   spotifyEmbedLink: string;
@@ -11,21 +13,6 @@ interface SpotifyPillProps {
 export default function SpotifyPill({ spotifyEmbedLink }: SpotifyPillProps) {
   const spotifyEmbedRef = useRef(null);
   const [spotifyEmbedLoading, setSpotifyEmbedLoading] = useState<boolean>(true);
-
-  function convertToEmbedUrl(originalUrl: string) {
-    // Check if the input URL is a valid Spotify track URL
-    if (originalUrl && originalUrl.includes("open.spotify.com/track/")) {
-      // Extract the track ID from the original URL
-      const trackId = originalUrl.split("track/").pop() || "";
-
-      // Construct the embedded URL
-      const embedUrl = `https://open.spotify.com/embed/track/${trackId}`;
-
-      return embedUrl;
-    } else {
-      return "Invalid Spotify track URL";
-    }
-  }
 
   const handleSpotifyOnLoadStart = useCallback(() => {
     setSpotifyEmbedLoading(true);

@@ -24,7 +24,7 @@ export default function Header({
           priority
         />
         <h1>
-          <SplitText>Blogs by Kota Cody Enokida</SplitText>
+          <SplitText>A Blog by Kota Cody Enokida</SplitText>
         </h1>
       </div>
       <p>

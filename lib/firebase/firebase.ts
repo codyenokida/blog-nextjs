@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -23,3 +24,4 @@ const app = initializeApp(firebaseConfig);
 // It will be imported into your react app whenever it is needed
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export const auth = getAuth(app);

@@ -1,11 +1,12 @@
-import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { useRef, useState } from "react";
+import { Dialog, DialogContent } from "@mui/material";
+import imageCompression from "browser-image-compression";
 import { v4 as uuidv4 } from "uuid";
 
-import styles from "./Modal.module.scss";
-import { useRef, useState } from "react";
 import Button from "@/components/Button";
 import ImagePlaceholder from "@/components/Icons/ImagePlaceholder";
-import imageCompression from "browser-image-compression";
+
+import styles from "./Modal.module.scss";
 
 interface ModalProps {
   open: boolean;

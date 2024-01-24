@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-import styles from "./PostComment.module.scss";
 import { postComment } from "@/lib/firebase/firestore";
-import Button from "./Button";
+
+import styles from "./PostComment.module.scss";
 
 interface CommentProps {
   postId: string;

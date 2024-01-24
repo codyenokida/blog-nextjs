@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React from "react";
 import { Reorder } from "framer-motion";
 
 import styles from "./ReorderItem.module.scss";
 
 interface ReorderItemProps {
   type: "text" | "image";
-  key: string;
   value: any;
   index: number;
   caption?: "string";
@@ -15,7 +14,6 @@ interface ReorderItemProps {
 
 const ReorderItem = ({
   type,
-  key,
   value,
   index,
   handleRemoveContent,
@@ -25,7 +23,7 @@ const ReorderItem = ({
 
   if (type === "text" && text) {
     return (
-      <Reorder.Item key={key} value={value} className={styles.item}>
+      <Reorder.Item key={value.id} value={value} className={styles.item}>
         {text}
         <button
           className={styles.delete}
@@ -37,11 +35,13 @@ const ReorderItem = ({
     );
   } else if (type === "image") {
     return (
-      <Reorder.Item key={key} value={value} className={styles.item}>
+      <Reorder.Item key={value.id} value={value} className={styles.item}>
         <div>
           <img
             src={
-              value.image ? value.image : URL.createObjectURL(value.tempImage)
+              value.imageUrl
+                ? value.imageUrl
+                : URL.createObjectURL(value.tempImage)
             }
             alt="item temporary"
           />

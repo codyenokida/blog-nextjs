@@ -1,4 +1,5 @@
 import React from "react";
+
 import styles from "./SplitText.module.scss";
 
 interface SplitTextProps {

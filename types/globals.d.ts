@@ -19,6 +19,7 @@ declare global {
 
   interface BlogPostData {
     id: string;
+    thumbnailImage: string;
     title: string;
     category: string;
     dateType: "single" | "multiple";

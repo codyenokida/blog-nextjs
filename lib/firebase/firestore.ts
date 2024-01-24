@@ -14,6 +14,7 @@ import {
   orderBy,
   Query,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -64,6 +65,7 @@ export async function getPostItems(q: FirestoreQuery = {}) {
  * @returns
  */
 export async function getPostFromId(postId: string) {
+  if (!postId) return;
   let queryRef = query(collection(db, "blog-post"));
   queryRef = applyQueryFilters(queryRef, { id: postId });
   const collectionSnap = await getDocs(queryRef);
@@ -117,11 +119,8 @@ export async function postComment(id: string, author: string, content: string) {
   });
 }
 
-export async function uploadPost(
-  id: string,
-  thumbnail: string | undefined,
-  post: any
-) {
+export async function uploadPost(id: string, post: any) {
+  if (!id) return;
   const blogPostItemRef = doc(db, "posts", `${id}`);
   const blogPostContentRef = doc(db, "blog-post", `${id}`);
   const item = {
@@ -129,10 +128,16 @@ export async function uploadPost(
     datePosted: post.datePosted,
     title: post.title,
     category: post.category,
-    thumbnail: thumbnail,
+    thumbnail: post.thumbnailImage,
   };
   setDoc(blogPostItemRef, { ...item }, { merge: true });
   setDoc(blogPostContentRef, { ...post }, { merge: true });
+}
+
+export async function deletePost(id: string) {
+  if (!id) return;
+  await deleteDoc(doc(db, "posts", id));
+  await deleteDoc(doc(db, "blog-post", id));
 }
 
 // Helpers for migration

@@ -29,6 +29,8 @@
         margin-top: 0.5rem;
         display: flex;
         background-color: transparent;
+        border: 1px solid $black;
+        color: $black;
         width: 12rem;
         height: 2rem;
         font-size: 1rem;
@@ -56,6 +58,7 @@
         background-color: transparent;
         border: none;
         border-bottom: 1px solid $black;
+        border-radius: 0;
       }
     }
 
@@ -71,6 +74,7 @@
         background-color: transparent;
         border: none;
         border-bottom: 1px solid $black;
+        border-radius: 0;
       }
     }
 

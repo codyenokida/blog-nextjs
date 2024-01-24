@@ -1,7 +1,8 @@
 import Link from "next/link";
+import classNames from "classnames";
 
 import styles from "./PostItem.module.scss";
-import classNames from "classnames";
+import Image from "next/image";
 
 interface PostItemProps {
   item: BlogPostItem;
@@ -23,11 +24,11 @@ export default function PostItem({
         onClick={() => handlePostClick(item.id)}
       >
         <div className={styles.image}>
-          {/* {loading && <div className="skeleton" />} */}
-          <img
+          <Image
             src={item.thumbnail}
-            // onLoad={handleOnLoad}
             alt={`${item.title} thumbnail`}
+            width={40}
+            height={40}
           />
         </div>
         <div className={styles.title}>
