@@ -100,7 +100,7 @@ const Page = () => {
         {completed && (
           <p>
             <br />A confirmation email has been sent! You may need to check your
-            spam folder. It's coming from kotaenokida@gmail.com
+            spam folder. It&apos;s coming from kotaenokida@gmail.com
           </p>
         )}
       </div>
