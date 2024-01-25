@@ -152,6 +152,15 @@ footer {
   body {
     width: calc(100% - 3rem);
     margin: 0 1.5rem;
+
+    &:has(.page) {
+      main.content {
+        height: 100px;
+        div.posts {
+          display: none;
+        }
+      }
+    }
   }
 }
 

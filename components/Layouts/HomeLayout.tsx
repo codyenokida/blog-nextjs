@@ -27,8 +27,6 @@ export default function HomeLayout({
 }: {
   children: React.ReactElement;
 }) {
-  const router = useRouter();
-
   const { theme } = useContext(ThemeContext);
   const { activePostId, setActivePostId } = useContext(PostContext);
 
@@ -66,11 +64,10 @@ export default function HomeLayout({
     const getDocument = async () => {
       const category =
         activeCategoryIndex !== 0 ? categories[activeCategoryIndex] : undefined;
-      const data = await getPostItems({ category, order: orderBy });
+      const data = await getPostItemsCached({ category, order: orderBy });
       if (data) {
         setPosts(data);
         setActivePostId(data[0].id);
-        router.push(`/`);
       }
     };
     getDocument();
@@ -104,8 +101,8 @@ export default function HomeLayout({
         activeCategoryIndex={activeCategoryIndex}
         setActiveCategoryIndex={setActiveCategoryIndex}
       />
-      <main className={styles.content}>
-        <div className={styles.posts}>
+      <main className={classNames(styles.content, "content")}>
+        <div className={classNames(styles.posts, "posts")}>
           <div className={styles.sort}>
             <button onClick={handleSortButtonClick} className="sortButton">
               Sort by Date

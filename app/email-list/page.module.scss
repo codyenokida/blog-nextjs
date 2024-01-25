@@ -12,4 +12,31 @@
   p {
     margin: 0;
   }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    width: 80%;
+    border: 1px solid $black;
+    padding: 2rem;
+
+    label {
+      &:nth-of-type(2) {
+        margin-top: 1rem;
+      }
+    }
+
+    button {
+      margin-top: 1rem;
+    }
+  }
+}
+
+.error {
+  color: $red;
 }

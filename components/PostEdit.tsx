@@ -303,6 +303,10 @@ export default function PostEdit({ id = "" }: PostEditProps) {
         if (section.type === "text") {
           return section;
         } else if (section.type === "image") {
+          // If an image already exists, skip the upload process
+          if (section.imageUrl) {
+            return section;
+          }
           const imageID = section.id;
           const imageFile = section.tempImage;
           const storageImageUrl = await uploadImageToStorage(

@@ -1,3 +1,5 @@
+import classNames from "classnames";
+
 import styles from "./PostContent.module.scss";
 
 interface ContentProps {
@@ -6,7 +8,7 @@ interface ContentProps {
 
 export default function PostContent({ content }: ContentProps) {
   return (
-    <div className={styles.content}>
+    <div className={classNames(styles.content, "content")}>
       {content?.map((section, i) => {
         if (section.type === "text") {
           return (

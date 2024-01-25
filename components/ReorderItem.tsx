@@ -45,7 +45,8 @@ const ReorderItem = ({
             }
             alt="item temporary"
           />
-          {value.caption && <span>{value.caption}</span>}
+          <br />
+          {value.imageCaption && <span>{value.imageCaption}</span>}
         </div>
         <button
           className={styles.delete}

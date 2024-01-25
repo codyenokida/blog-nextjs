@@ -2,7 +2,7 @@
  * Helper Firestore APIs
  */
 import { cache } from "react";
-
+import emailjs from "@emailjs/browser";
 import {
   getDocs,
   collection,
@@ -16,7 +16,10 @@ import {
   setDoc,
   deleteDoc,
 } from "firebase/firestore";
+
 import { db } from "./firebase";
+
+import { wait } from "@/utils/helper";
 
 /**
  *
@@ -138,6 +141,68 @@ export async function deletePost(id: string) {
   if (!id) return;
   await deleteDoc(doc(db, "posts", id));
   await deleteDoc(doc(db, "blog-post", id));
+}
+
+export async function getEmailList() {
+  const collectionRef = collection(db, "email-list");
+  const collectionSnap = await getDocs(collectionRef);
+  const emailList = collectionSnap?.docs?.map((doc) => doc.data());
+  return emailList;
+}
+
+export async function addToEmaiList(name: string, email: string) {
+  const emailListDocRef = doc(db, "email-list", email);
+
+  const collectionObj = {
+    name,
+    email,
+  };
+
+  setDoc(emailListDocRef, { ...collectionObj }, { merge: true });
+}
+
+export async function sendEmailPost(blogId: string) {
+  const collectionRef = collection(db, "email-list");
+  const collectionSnap = await getDocs(collectionRef);
+  const list = collectionSnap?.docs?.map((doc) => doc.data());
+  if (!list.length) return false;
+  for (const user of list) {
+    const { email, name } = user;
+    const templateParams = {
+      blog_link: blogId,
+      recipient: email,
+      to_name: name,
+    };
+    wait(1200);
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID || "",
+        "blog-template",
+        templateParams,
+        process.env.NEXT_PUBLIC_EMAIL_API_KEY
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  return true;
+}
+
+export async function sendEmailSubscribed(name: string, email: string) {
+  const templateParams = {
+    recipient: email,
+    to_name: name,
+  };
+  try {
+    await emailjs.send(
+      process.env.NEXT_PUBLIC_EMAIL_SERVICE_ID || "",
+      "blog-sub",
+      templateParams,
+      process.env.NEXT_PUBLIC_EMAIL_API_KEY
+    );
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 // Helpers for migration

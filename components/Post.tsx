@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 
@@ -11,11 +11,21 @@ import SpotifyPill from "@/components/SpotifyPill";
 import PostLoadingSkeleton from "@/components/Skeleton/PostLoadingSkeleton";
 import Footer from "@/components/Footer";
 
+import { PostContext } from "@/context/PostContext";
+
 import { getPostFromIdCached } from "@/lib/firebase/firestore";
 
 import styles from "./Post.module.scss";
 
-export default function Post({ postId }: { postId: string }) {
+export default function Post({
+  postId,
+  page = false,
+}: {
+  postId: string;
+  page?: boolean;
+}) {
+  const { setActivePostId } = useContext(PostContext);
+
   const [data, setData] = useState<BlogPostData>({} as BlogPostData);
   const [dataLoading, setDataLoading] = useState<boolean>(true);
 
@@ -24,7 +34,10 @@ export default function Post({ postId }: { postId: string }) {
     setDataLoading(true);
     const getData = async () => {
       const post = await getPostFromIdCached(postId);
-      if (post) setData(post);
+      if (post) {
+        setData(post);
+        setActivePostId(postId);
+      }
       setDataLoading(false);
     };
 
@@ -68,10 +81,11 @@ export default function Post({ postId }: { postId: string }) {
   }
 
   return (
-    <article className={classNames(styles.main, "main")}>
+    <article className={classNames(styles.main, "main", { page: page })}>
       <Link href="/" passHref className={styles.backToHome}>
         <Button text="← Back to Home" />
       </Link>
+      {spotifyEmbedLink && <SpotifyPill spotifyEmbedLink={spotifyEmbedLink} />}
       <header className={styles.title}>
         <h1 className={styles.title}>{title || ""}</h1>
         {dateType === "single" && (
@@ -83,7 +97,6 @@ export default function Post({ postId }: { postId: string }) {
           </p>
         )}
       </header>
-      {spotifyEmbedLink && <SpotifyPill spotifyEmbedLink={spotifyEmbedLink} />}
       <PostContent content={content} />
       <p className={styles.datePosted}>Date Posted: {formattedDatePosted}</p>
       <PostComment comments={comments} postId={postId} />
