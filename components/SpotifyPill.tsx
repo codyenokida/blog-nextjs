@@ -26,7 +26,7 @@ export default function SpotifyPill({ spotifyEmbedLink }: SpotifyPillProps) {
     setTimeout(() => {
       if (spotifyEmbedLoading) setSpotifyEmbedLoading(false);
     }, 750);
-  }, []);
+  }, [spotifyEmbedLoading]);
 
   return (
     <div className={styles.div}>
