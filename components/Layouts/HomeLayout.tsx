@@ -55,7 +55,7 @@ export default function HomeLayout({
     };
 
     getDocument();
-  }, []);
+  }, [setActivePostId]);
 
   /**
    * Re-fetch data whenever order (sorting) or category is changed
@@ -71,7 +71,7 @@ export default function HomeLayout({
       }
     };
     getDocument();
-  }, [orderBy, activeCategoryIndex, setPosts]);
+  }, [orderBy, activeCategoryIndex, setPosts, setActivePostId]);
 
   /**
    * Handler for clicking the "Sort by Date" button

@@ -44,7 +44,7 @@ export default function Post({
     setTimeout(() => {
       if (postId) getData();
     }, 500);
-  }, [postId]);
+  }, [postId, setActivePostId]);
 
   // Whenever context changes
 

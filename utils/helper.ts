@@ -13,7 +13,7 @@ export function isValidSpotifyTrackURL(url: string) {
   return spotifyRegex.test(url);
 }
 
-export function formatDate(date: string) {
+export function formatDate(date: Date) {
   var d = new Date(date),
     month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),

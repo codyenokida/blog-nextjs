@@ -108,14 +108,12 @@ export default function PostEdit({ id = "", edit = false }: PostEditProps) {
       setForm((prev) => ({ ...prev, dateType: data?.dateType }));
     }
     if (data?.startDate && startDateRef.current) {
-      const startDate = formatDate(
-        data?.startDate.toDate()?.toLocaleDateString()
-      );
+      const startDate = formatDate(data?.startDate.toDate());
       startDateRef.current.value = data?.startDate.toDate();
       setForm((prev) => ({ ...prev, startDate: startDate }));
     }
     if (data?.endDate && endDateRef.current) {
-      const endDate = formatDate(data?.endDate.toDate()?.toLocaleDateString());
+      const endDate = formatDate(data?.endDate.toDate());
       endDateRef.current.value = data?.endDate.toDate();
       setForm((prev) => ({ ...prev, endDate: endDate }));
     }
@@ -135,7 +133,6 @@ export default function PostEdit({ id = "", edit = false }: PostEditProps) {
     data?.endDate,
     data?.thumbnailImage,
     data?.content,
-    endDateRef.current,
   ]);
 
   useEffect(() => {
@@ -330,7 +327,7 @@ export default function PostEdit({ id = "", edit = false }: PostEditProps) {
     );
 
     // Generate Posted Date
-    const datePosted = new Date();
+    const datePosted = edit ? data?.datePosted : new Date();
 
     // Generate Metadata
     const postToUpload = {

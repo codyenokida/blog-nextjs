@@ -16,17 +16,17 @@ export default function SpotifyPill({ spotifyEmbedLink }: SpotifyPillProps) {
 
   const handleSpotifyOnLoadStart = useCallback(() => {
     setSpotifyEmbedLoading(true);
-  }, [spotifyEmbedLink]);
+  }, []);
 
   const handleSpotifyOnLoad = useCallback(() => {
     setSpotifyEmbedLoading(false);
-  }, [spotifyEmbedLink]);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
       if (spotifyEmbedLoading) setSpotifyEmbedLoading(false);
     }, 750);
-  }, [spotifyEmbedLink]);
+  }, []);
 
   return (
     <div className={styles.div}>
