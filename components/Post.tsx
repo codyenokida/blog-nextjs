@@ -36,7 +36,7 @@ export default function Post({
       const post = await getPostFromIdCached(postId);
       if (post) {
         setData(post);
-        setActivePostId(postId);
+        setActivePostId(post.id);
       }
       setDataLoading(false);
     };

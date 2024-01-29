@@ -17,12 +17,17 @@ import { categoriesForEdit } from "@/utils/consts";
 import { formatDate } from "@/utils/helper";
 
 import { uploadImageToStorage } from "@/lib/firebase/storage";
-import { getPostFromIdCached, uploadPost } from "@/lib/firebase/firestore";
+import {
+  getPostFromIdCached,
+  sendEmailPost,
+  uploadPost,
+} from "@/lib/firebase/firestore";
 
 import styles from "./PostEdit.module.scss";
 
 interface PostEditProps {
   id?: string;
+  edit?: boolean;
 }
 
 interface Form {
@@ -45,7 +50,7 @@ interface FormError {
   content?: string;
 }
 
-export default function PostEdit({ id = "" }: PostEditProps) {
+export default function PostEdit({ id = "", edit = false }: PostEditProps) {
   const router = useRouter();
 
   // Controlled Form State
@@ -343,6 +348,15 @@ export default function PostEdit({ id = "" }: PostEditProps) {
     };
 
     await uploadPost(postId, postToUpload);
+
+    try {
+      // Only send email when posting
+      if (!edit) {
+        await sendEmailPost(postId);
+      }
+    } catch (e) {
+      console.error(e);
+    }
 
     router.push(`/post/${postId}`);
   };
